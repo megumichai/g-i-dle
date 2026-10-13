@@ -58,7 +58,7 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
     })
     $(btn).on('mouseenter', () => {
       const gallerySrc = g.id === 'all' ? groups[0].items[0]?.url : g.items[0]?.url
-      const avatar = profileFor(g.id === 'all' ? groups[0].id : g.id)
+      const avatar = g.id === 'all' ? null : profileFor(g.id)
       showPreview(avatar || gallerySrc, gallerySrc)
     })
     els.primary.append(btn)
