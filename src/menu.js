@@ -14,29 +14,35 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
   const entries = [{ id: 'all', name: 'All Members' }, ...groups]
   let items = []
   let previewSrc = ''
+  let previewToken = 0
 
   // Swap the preview image, falling back to the gallery shot when a member has
-  // no avatar (or the avatar fails to load).
+  // no avatar (or the avatar fails to load). A token guards against a slow load
+  // from a previous hover landing after a newer one.
   function showPreview(src, fallback) {
     if (!src || src === previewSrc) return
     previewSrc = src
-    $(els.img).removeClass('is-shown')
-    const next = new Image()
-    next.onload = () => {
-      els.img.src = src
-      requestAnimationFrame(() => $(els.img).addClass('is-shown'))
+    const token = ++previewToken
+    const img = els.img
+    $(img).removeClass('is-shown')
+
+    const reveal = () => {
+      if (token !== previewToken) return
+      void img.offsetWidth // flush the opacity:0 removal so the fade-in replays
+      $(img).addClass('is-shown')
     }
-    next.onerror = () => {
-      if (!fallback || fallback === src) return
-      previewSrc = fallback
-      const retry = new Image()
-      retry.onload = () => {
-        els.img.src = fallback
-        requestAnimationFrame(() => $(els.img).addClass('is-shown'))
-      }
-      retry.src = fallback
-    }
-    next.src = src
+    img.addEventListener('load', reveal, { once: true })
+    img.addEventListener(
+      'error',
+      () => {
+        if (token === previewToken && fallback && fallback !== src) img.src = fallback
+      },
+      { once: true }
+    )
+    img.src = src
+    // A cached image may already be `complete` when `src` is set, before any
+    // `load` event is queued.
+    if (img.complete && img.naturalWidth > 0) reveal()
   }
 
   entries.forEach((g, i) => {
@@ -78,6 +84,7 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
     open = true
     syncActive()
     root.hidden = false
+    $root.addClass('is-open')
     gsap.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' })
     gsap.to(items, {
       y: 0,
@@ -101,6 +108,7 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
       delay: 0.1,
       onComplete: () => {
         root.hidden = true
+        $root.removeClass('is-open')
       },
     })
     els.openBtn.setAttribute('aria-expanded', 'false')
