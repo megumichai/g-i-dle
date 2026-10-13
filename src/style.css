@@ -700,15 +700,6 @@ button {
     padding: calc(var(--header-h) + 6px) 16px calc(var(--footer-h) + 6px);
   }
 
-  .col {
-    flex: 1 1 50%;
-  }
-
-  .col[data-col='3'],
-  .col[data-col='4'] {
-    display: none;
-  }
-
   .stage__hint {
     left: 16px;
   }
@@ -725,11 +716,39 @@ button {
   .site-footer__mid {
     display: none;
   }
+
+  /* menu sizing for tablets / small screens */
+  .menu__item {
+    font-size: clamp(30px, 8vw, 56px);
+  }
 }
 
 @media (max-width: 520px) {
-  .col[data-col='3'] {
-    display: flex;
+  /* fewer, larger tiles + cleaner chrome on phones */
+  .stage__hint {
+    display: none;
+  }
+
+  .stage__meta {
+    bottom: calc(var(--footer-h) + 8px);
+  }
+
+  .menu__inner {
+    padding: 104px 20px 32px;
+  }
+
+  .menu__item {
+    gap: 12px;
+  }
+
+  .lightbox__close,
+  .lightbox__nav {
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+
+  .lightbox__figure {
+    max-width: 100%;
   }
 }
 

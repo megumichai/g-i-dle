@@ -2,11 +2,18 @@ import $ from 'jquery'
 import gsap from 'gsap'
 import { itemsFor } from './lib/data.js'
 
-const COLS = 4
 const PER_COL = 7
 const BASE_SPEED = 18 // px / second at rest
 const MAX_BOOST = 26
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Number of columns for the current viewport (aligned with the CSS breakpoints). */
+function columnCount() {
+  const w = window.innerWidth
+  if (w >= 768) return 4
+  if (w >= 521) return 3
+  return 2
+}
 
 export function createGallery({ colsEl, onOpen }) {
   let columns = []
@@ -120,6 +127,7 @@ export function createGallery({ colsEl, onOpen }) {
 
     const pool = itemsFor(groupId)
     const built = []
+    const COLS = columnCount()
 
     for (let c = 0; c < COLS; c++) {
       const picked = []
