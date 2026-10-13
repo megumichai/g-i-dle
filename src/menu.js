@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import gsap from 'gsap'
-import { groups } from './lib/data.js'
+import { groups, profileFor } from './lib/data.js'
 
 export function createMenu({ root, onSelect, getActive, onOpen }) {
   const $root = $(root)
@@ -14,6 +14,30 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
   const entries = [{ id: 'all', name: 'All Members' }, ...groups]
   let items = []
   let previewSrc = ''
+
+  // Swap the preview image, falling back to the gallery shot when a member has
+  // no avatar (or the avatar fails to load).
+  function showPreview(src, fallback) {
+    if (!src || src === previewSrc) return
+    previewSrc = src
+    $(els.img).removeClass('is-shown')
+    const next = new Image()
+    next.onload = () => {
+      els.img.src = src
+      requestAnimationFrame(() => $(els.img).addClass('is-shown'))
+    }
+    next.onerror = () => {
+      if (!fallback || fallback === src) return
+      previewSrc = fallback
+      const retry = new Image()
+      retry.onload = () => {
+        els.img.src = fallback
+        requestAnimationFrame(() => $(els.img).addClass('is-shown'))
+      }
+      retry.src = fallback
+    }
+    next.src = src
+  }
 
   entries.forEach((g, i) => {
     const btn = document.createElement('button')
@@ -33,17 +57,9 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
       close()
     })
     $(btn).on('mouseenter', () => {
-      const src = g.id === 'all' ? groups[0].items[0]?.url : g.items[0]?.url
-      if (src && src !== previewSrc) {
-        previewSrc = src
-        $(els.img).removeClass('is-shown')
-        const next = new Image()
-        next.onload = () => {
-          els.img.src = src
-          requestAnimationFrame(() => $(els.img).addClass('is-shown'))
-        }
-        next.src = src
-      }
+      const gallerySrc = g.id === 'all' ? groups[0].items[0]?.url : g.items[0]?.url
+      const avatar = profileFor(g.id === 'all' ? groups[0].id : g.id)
+      showPreview(avatar || gallerySrc, gallerySrc)
     })
     els.primary.append(btn)
     items.push(btn)

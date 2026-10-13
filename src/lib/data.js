@@ -27,6 +27,12 @@ function interleave(list) {
 
 export const allItems = interleave(items)
 
+// Member avatars, keyed by member id (parallel to `groups` order).
+const profileById = new Map(groups.map((g, i) => [g.id, group.profiles?.[i] ?? null]))
+
+/** Avatar URL for a member id, or null when unavailable. */
+export const profileFor = (id) => profileById.get(id) ?? null
+
 const byGroup = new Map(groups.map((g) => [g.id, g.items]))
 
 export function itemsFor(groupId) {
