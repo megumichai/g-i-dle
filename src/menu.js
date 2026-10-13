@@ -6,6 +6,7 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
   const $root = $(root)
   const els = {
     primary: root.querySelector('[data-menu-primary]'),
+    preview: root.querySelector('[data-menu-preview]'),
     img: root.querySelector('[data-menu-img]'),
     close: root.querySelector('[data-menu-close]'),
     openBtn: document.querySelector('[data-menu-open]'),
@@ -17,19 +18,27 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
   let previewToken = 0
 
   // Swap the preview image, falling back to the gallery shot when a member has
-  // no avatar (or the avatar fails to load). A token guards against a slow load
-  // from a previous hover landing after a newer one.
+  // no avatar (or the avatar fails to load). Hovering "All Members" hides it.
+  // A token guards against a slow load from a previous hover landing after a
+  // newer one.
+  function hidePreview() {
+    previewSrc = ''
+    ++previewToken
+    $(els.preview).removeClass('is-shown')
+  }
+
   function showPreview(src, fallback) {
     if (!src || src === previewSrc) return
     previewSrc = src
     const token = ++previewToken
     const img = els.img
-    $(img).removeClass('is-shown')
+    const box = els.preview
+    $(box).removeClass('is-shown')
 
     const reveal = () => {
       if (token !== previewToken) return
-      void img.offsetWidth // flush the opacity:0 removal so the fade-in replays
-      $(img).addClass('is-shown')
+      void box.offsetWidth // flush the opacity:0 removal so the fade-in replays
+      $(box).addClass('is-shown')
     }
     img.addEventListener('load', reveal, { once: true })
     img.addEventListener(
@@ -63,9 +72,11 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
       close()
     })
     $(btn).on('mouseenter', () => {
-      const gallerySrc = g.id === 'all' ? groups[0].items[0]?.url : g.items[0]?.url
-      const avatar = g.id === 'all' ? null : profileFor(g.id)
-      showPreview(avatar || gallerySrc, gallerySrc)
+      if (g.id === 'all') {
+        hidePreview()
+        return
+      }
+      showPreview(profileFor(g.id) || g.items[0]?.url, g.items[0]?.url)
     })
     els.primary.append(btn)
     items.push(btn)
