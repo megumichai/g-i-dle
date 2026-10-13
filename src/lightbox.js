@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import gsap from 'gsap'
+import { group } from './lib/data.js'
 
 export function createLightbox(root, { onOpen, onClose, onLock } = {}) {
   const els = {
@@ -20,11 +21,11 @@ export function createLightbox(root, { onOpen, onClose, onLock } = {}) {
   function render() {
     const item = list[index]
     if (!item) return
-    els.member.textContent = item.member ?? item.groupName
-    els.group.textContent = item.member ? item.groupName : 'Group'
+    els.member.textContent = item.member ?? group.name
+    els.group.textContent = item.member ? group.name : 'Group'
     els.title.textContent = item.title
     els.img.src = item.url
-    els.img.alt = `${item.member ?? item.groupName} — ${item.groupName}`
+    els.img.alt = `${item.member ?? group.name} — ${group.name}`
 
     gsap.fromTo(
       els.img,

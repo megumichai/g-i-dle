@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import gsap from 'gsap'
-import { itemsFor } from './lib/data.js'
+import { group, itemsFor } from './lib/data.js'
 
 const PER_COL = 7
 const BASE_SPEED = 18 // px / second at rest
@@ -55,7 +55,7 @@ export function createGallery({ colsEl, onOpen }) {
     img.loading = 'eager'
     img.decoding = 'async'
     img.src = item.url
-    img.alt = `${item.member ?? item.groupName} — ${item.groupName}`
+    img.alt = `${item.member ?? group.name} — ${group.name}`
     img.addEventListener('error', () => {
       img.src = `https://picsum.photos/seed/${item.id}/600/800`
     })
@@ -64,10 +64,10 @@ export function createGallery({ colsEl, onOpen }) {
     overlay.className = 'tile__overlay'
     const name = document.createElement('span')
     name.className = 'tile__name'
-    name.textContent = item.member ?? item.groupName
+    name.textContent = item.member ?? group.name
     const sub = document.createElement('span')
     sub.className = 'tile__group'
-    sub.textContent = item.member ? item.groupName : 'Group'
+    sub.textContent = item.member ? group.name : 'Group'
     overlay.append(name, sub)
 
     tile.append(img, overlay)
