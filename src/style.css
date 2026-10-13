@@ -494,16 +494,28 @@ button {
     transform 0.6s var(--ease) 0.3s;
 }
 
-.menu.is-open .menu__side {
+.menu.is-open .menu__side,
+.menu.is-open .menu__preview {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* Pinned to the bottom-right of the overlay rather than the side column. */
 .menu__preview {
+  position: absolute;
+  right: 60px;
+  bottom: 60px;
+  z-index: 1;
+  width: min(340px, 30vw);
   aspect-ratio: 4 / 3;
   border-radius: 8px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s var(--ease) 0.3s,
+    transform 0.6s var(--ease) 0.3s;
 }
 
 .menu__preview img {
@@ -684,7 +696,8 @@ button {
     padding: 120px 30px 40px;
   }
 
-  .menu__side {
+  .menu__side,
+  .menu__preview {
     display: none;
   }
 }
