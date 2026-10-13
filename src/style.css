@@ -410,12 +410,20 @@ button {
   grid-template-columns: 1.4fr 1fr;
   gap: 40px;
   padding: 140px 60px 60px;
+  /* allow the member list to scroll on short viewports */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
 }
 
 .menu__primary {
   display: flex;
   flex-direction: column;
-  align-self: center;
+  /* margin:auto centers when there's room, but pins to the top and stays
+     scrollable when the list is taller than the viewport */
+  margin: auto 0;
+  padding-block: 10px;
 }
 
 .menu__item {
