@@ -4,10 +4,124 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>idle</title>
+    <meta name="theme-color" content="#0a0018" />
+    <meta
+      name="description"
+      content="IDLE ARCHIVE — a kinetic photo archive of (G)I-DLE and their members."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>(G)I-DLE ARCHIVE</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="site-header" data-header>
+      <nav class="header-secondary" aria-label="Secondary">
+        <a href="#top">About</a>
+        <a href="#top">Members</a>
+        <a href="#top">Contact</a>
+      </nav>
+
+      <a class="logo" href="#top" aria-label="(G)I-DLE Archive">
+        <span class="logo__mark">⁕</span>
+        <span class="logo__text">(G)I-DLE<em>ARCHIVE</em></span>
+      </a>
+
+      <div class="header-actions">
+        <span class="header-current" data-current>ALL MEMBERS</span>
+        <button
+          class="menu-btn"
+          type="button"
+          data-menu-open
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="stage" id="top">
+      <div class="gallery" data-gallery>
+        <div class="gallery__cols" data-cols></div>
+      </div>
+
+      <div class="stage__hint" data-hint>
+        <span>Scroll to energise</span>
+        <span class="stage__hint-line"></span>
+      </div>
+
+      <div class="stage__meta">
+        <span data-count>— photos</span>
+        <span data-groups>— members</span>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <span>Images · placeholder</span>
+      <span class="site-footer__mid"
+        >Fan-made demo · not affiliated with (G)I-DLE or CUBE Entertainment</span
+      >
+      <span data-year></span>
+    </footer>
+
+    <!-- Overlay menu -->
+    <div class="menu" data-menu hidden>
+      <div class="menu__bg" data-menu-bg></div>
+      <div class="menu__inner">
+        <div class="menu__primary" data-menu-primary></div>
+        <aside class="menu__side">
+          <div class="menu__preview" data-menu-preview>
+            <img data-menu-img alt="" />
+          </div>
+          <div class="menu__links">
+            <span class="menu__label">Index</span>
+            <a href="#top">About the Archive</a>
+            <a href="#top">Discography</a>
+            <a href="#top">Interviews</a>
+            <a href="#top">Terms &amp; Privacy</a>
+          </div>
+          <div class="menu__socials">
+            <a href="#top">Instagram</a>
+            <a href="#top">Youtube</a>
+          </div>
+        </aside>
+      </div>
+      <button class="menu__close" type="button" data-menu-close aria-label="Close menu">
+        Close
+      </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" data-lightbox hidden>
+      <button class="lightbox__close" type="button" data-lb-close aria-label="Close">Close</button>
+      <button
+        class="lightbox__nav lightbox__nav--prev"
+        type="button"
+        data-lb-prev
+        aria-label="Previous"
+      >
+        Prev
+      </button>
+      <button
+        class="lightbox__nav lightbox__nav--next"
+        type="button"
+        data-lb-next
+        aria-label="Next"
+      >
+        Next
+      </button>
+      <figure class="lightbox__figure" data-lb-figure>
+        <img class="lightbox__img" data-lb-img alt="" />
+        <figcaption class="lightbox__cap">
+          <span class="lightbox__member" data-lb-member></span>
+          <span class="lightbox__group" data-lb-group></span>
+          <span class="lightbox__title" data-lb-title></span>
+        </figcaption>
+      </figure>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
