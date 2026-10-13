@@ -24,6 +24,15 @@ const MEMBERS = [
   { id: 'shuhua', name: 'Shuhua' },
 ]
 
+// One avatar per member, in MEMBERS order.
+const PROFILES = [
+  'https://pbs.twimg.com/media/HLuHKTrbwAAQnX9?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6Miqia8AAjznY?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MmojaIAIIDER?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MrOJaoAA2esp?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MvOHasAAEQB2?format=jpg&name=large',
+]
+
 let seq = 0
 
 function item(member, n) {
@@ -73,6 +82,7 @@ const out =
   `  debut: '2018.05.02',\n` +
   `  fandom: 'NEVERLAND',\n` +
   `  members: ${JSON.stringify(MEMBERS.map((m) => m.name))},\n` +
+  `  profiles: ${JSON.stringify(PROFILES, null, 2).replace(/\n/g, '\n  ')},\n` +
   `};\n\n` +
   `export const groups = ${JSON.stringify(groups, null, 2)};\n\n` +
   `export const items = groups.flatMap((g) => g.items);\n\n` +

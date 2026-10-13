@@ -32,6 +32,15 @@ const GROUP = {
   ],
 }
 
+// One avatar per member, in `GROUP.members` order.
+const PROFILES = [
+  'https://pbs.twimg.com/media/HLuHKTrbwAAQnX9?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6Miqia8AAjznY?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MmojaIAIIDER?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MrOJaoAA2esp?format=jpg&name=large',
+  'https://pbs.twimg.com/media/HL6MvOHasAAEQB2?format=jpg&name=large',
+]
+
 const BLOCK =
   /(logo|icon|signature|map|timeline|chart|symbol|wordmark|diagram|screenshot|fan ?art|edit|template|wiki|stub|user|navbox)/i
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -111,7 +120,7 @@ async function fetchMemberImages(memberName, target = 10) {
 console.log('Source: Wikimedia Commons')
 
 try {
-  await getJson(`${COMMONS_API}?action=query&meta=siteinfo&format=json`, 1)
+  await getJson(`${COMMONS_API}?action=query&meta=siteinfo&format=json`)
 } catch (e) {
   console.error(
     `\nCannot reach commons.wikimedia.org from this network (${e.message}).\nExisting src/data/groups.js is untouched.`
@@ -136,7 +145,16 @@ for (const [id, name] of GROUP.members) {
     seen.add(it.url)
     uniq.push(it)
   }
-  groups.push({ id, name, ...GROUP, members: GROUP.members.map(([, n]) => n), items: uniq })
+  groups.push({
+    id,
+    name,
+    kr: '',
+    agency: GROUP.agency,
+    debut: GROUP.debut,
+    fandom: GROUP.fandom,
+    members: GROUP.members.map(([, n]) => n),
+    items: uniq,
+  })
   console.log(`${uniq.length} images`)
 }
 
@@ -150,13 +168,13 @@ if (total < 20) {
 }
 
 for (const g of groups) {
-  for (const it of g.items) {
-    it.id = `${g.id}-${seen.size}-${Math.random().toString(36).slice(2, 7)}`
+  g.items.forEach((it, i) => {
+    it.id = `${g.id}-${String(i + 1).padStart(2, '0')}`
     it.groupId = GROUP_ID
     it.groupName = GROUP_NAME
     it.member = g.name
     it.orientation = it.w >= it.h ? 'landscape' : it.h / it.w > 1.15 ? 'portrait' : 'square'
-  }
+  })
 }
 
 const header =
@@ -164,7 +182,7 @@ const header =
   `// ${groups.length} members · ${total} images · source: Wikimedia Commons\n`
 
 const groupMeta = groups[0]
-  ? `export const group = {\n  id: '${GROUP_ID}',\n  name: '${GROUP_NAME}',\n  kr: '(여자)아이들',\n  agency: 'CUBE Entertainment',\n  debut: '2018.05.02',\n  fandom: 'NEVERLAND',\n  members: ${JSON.stringify(GROUP.members.map(([, n]) => n))},\n};\n\n`
+  ? `export const group = {\n  id: '${GROUP_ID}',\n  name: '${GROUP_NAME}',\n  kr: '(여자)아이들',\n  agency: 'CUBE Entertainment',\n  debut: '2018.05.02',\n  fandom: 'NEVERLAND',\n  members: ${JSON.stringify(GROUP.members.map(([, n]) => n))},\n  profiles: ${JSON.stringify(PROFILES, null, 2).replace(/\n/g, '\n  ')},\n};\n\n`
   : ''
 
 const out =
