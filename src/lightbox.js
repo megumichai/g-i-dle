@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import gsap from 'gsap'
 
-export function createLightbox(root, { onOpen, onClose } = {}) {
+export function createLightbox(root, { onOpen, onClose, onLock } = {}) {
   const els = {
     img: root.querySelector('[data-lb-img]'),
     member: root.querySelector('[data-lb-member]'),
@@ -42,7 +42,7 @@ export function createLightbox(root, { onOpen, onClose } = {}) {
     if (open) return
     open = true
     root.hidden = false
-    document.body.classList.add('is-locked')
+    onLock?.(true)
     gsap.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
     gsap.fromTo(
       els.figure,
@@ -62,7 +62,7 @@ export function createLightbox(root, { onOpen, onClose } = {}) {
       ease: 'power2.in',
       onComplete: () => {
         root.hidden = true
-        document.body.classList.remove('is-locked')
+        onLock?.(false)
         els.img.removeAttribute('src')
         onClose?.()
       },

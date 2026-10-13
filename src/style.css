@@ -51,8 +51,24 @@ body {
   }
 }
 
-body.is-locked {
-  overflow: hidden;
+/* OverlayScrollbars: match the site palette (dark track, green on hover) */
+.os-scrollbar.os-theme-light {
+  --os-size: 9px;
+  --os-padding-perpendicular: 2px;
+  --os-padding-axis: 2px;
+  --os-track-border-radius: 999px;
+  --os-track-bg: rgba(255, 255, 255, 0.06);
+  --os-track-bg-hover: rgba(255, 255, 255, 0.1);
+  --os-track-bg-active: rgba(255, 255, 255, 0.12);
+  --os-handle-border-radius: 999px;
+  --os-handle-bg: rgba(255, 255, 255, 0.3);
+  --os-handle-bg-hover: rgba(177, 221, 54, 0.85);
+  --os-handle-bg-active: var(--green);
+}
+
+/* keep the menu list from chaining its scroll to the page behind it */
+.menu__inner [data-overlayscrollbars-viewport] {
+  overscroll-behavior: contain;
 }
 
 img {

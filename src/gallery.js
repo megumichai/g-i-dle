@@ -4,7 +4,8 @@ import { itemsFor } from './lib/data.js'
 
 const PER_COL = 7
 const BASE_SPEED = 18 // px / second at rest
-const MAX_BOOST = 26
+const SCROLL_BOOST = 0.07 // scroll delta → playback boost sensitivity
+const MAX_BOOST = 30 // playback ceiling while scrolling hard
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /** Number of columns for the current viewport (aligned with the CSS breakpoints). */
@@ -32,7 +33,7 @@ export function createGallery({ colsEl, onOpen }) {
     lastScroll = y
     if (v === 0) return
     dir = v > 0 ? 1 : -1
-    targetMag = 1 + Math.min(Math.abs(v) * 0.05, MAX_BOOST - 1)
+    targetMag = 1 + Math.min(Math.abs(v) * SCROLL_BOOST, MAX_BOOST - 1)
   })
 
   gsap.ticker.add(() => {

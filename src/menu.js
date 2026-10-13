@@ -2,7 +2,7 @@ import $ from 'jquery'
 import gsap from 'gsap'
 import { groups } from './lib/data.js'
 
-export function createMenu({ root, onSelect, getActive }) {
+export function createMenu({ root, onSelect, getActive, onOpen }) {
   const $root = $(root)
   const els = {
     primary: root.querySelector('[data-menu-primary]'),
@@ -72,6 +72,7 @@ export function createMenu({ root, onSelect, getActive }) {
       delay: 0.05,
     })
     els.openBtn.setAttribute('aria-expanded', 'true')
+    onOpen?.()
   }
 
   function close() {

@@ -1,7 +1,9 @@
 import $ from 'jquery'
 import gsap from 'gsap'
+import 'overlayscrollbars/overlayscrollbars.css'
 import './style.css'
 import { stats, groupById } from './lib/data.js'
+import { createScrollbars } from './scrollbars.js'
 import { createGallery } from './gallery.js'
 import { createMenu } from './menu.js'
 import { createLightbox } from './lightbox.js'
@@ -13,9 +15,12 @@ const galleryEl = $('[data-gallery]')[0]
 let gallery
 let menu
 
+const scrollbars = createScrollbars()
+
 const lightbox = createLightbox($('[data-lightbox]')[0], {
   onOpen: () => gallery?.setPaused(true),
   onClose: () => gallery?.setPaused(false),
+  onLock: (locked) => scrollbars.lock(locked),
 })
 
 gallery = createGallery({
@@ -27,6 +32,7 @@ menu = createMenu({
   root: $('[data-menu]')[0],
   onSelect: (id) => selectGroup(id),
   getActive: () => gallery.group,
+  onOpen: () => scrollbars.syncMenu(),
 })
 
 function selectGroup(id) {
