@@ -8,9 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "placeholder:data": "node scripts/gen-placeholder-data.mjs",
-    "fetch:data": "node scripts/fetch-data.mjs"
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "prettier": "^3.9.10",
