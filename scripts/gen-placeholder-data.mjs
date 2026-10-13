@@ -85,8 +85,7 @@ const out =
   `  profiles: ${JSON.stringify(PROFILES, null, 2).replace(/\n/g, '\n  ')},\n` +
   `};\n\n` +
   `export const groups = ${JSON.stringify(groups, null, 2)};\n\n` +
-  `export const items = groups.flatMap((g) => g.items);\n\n` +
-  `export default { group, groups, items };\n`
+  `export const items = groups.flatMap((g) => g.items);\n`
 
 const file = resolve(__dirname, '../src/data/groups.js')
 await mkdir(dirname(file), { recursive: true })

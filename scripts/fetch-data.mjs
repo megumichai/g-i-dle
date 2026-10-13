@@ -187,8 +187,7 @@ const groupMeta = groups[0]
 
 const out =
   `${header}${groupMeta}export const groups = ${JSON.stringify(groups, null, 2)};\n\n` +
-  `export const items = groups.flatMap((g) => g.items);\n\n` +
-  `export default { group, groups, items };\n`
+  `export const items = groups.flatMap((g) => g.items);\n`
 
 const file = resolve(__dirname, '../src/data/groups.js')
 await writeFile(file, out, 'utf8')

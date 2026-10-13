@@ -626,5 +626,3 @@ export const groups = [
 ]
 
 export const items = groups.flatMap((g) => g.items)
-
-export default { group, groups, items }

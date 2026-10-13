@@ -29,8 +29,6 @@ export function createScrollbars() {
   })
 
   return {
-    page,
-    menu,
     /** Lock / unlock page scrolling (used by the lightbox). */
     lock(locked) {
       page.options({ overflow: { y: locked ? 'hidden' : 'scroll' } })

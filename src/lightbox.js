@@ -96,9 +96,5 @@ export function createLightbox(root, { onOpen, onClose, onLock } = {}) {
       index = Math.max(0, Math.min(nextIndex, list.length - 1))
       show()
     },
-    close: hide,
-    get isOpen() {
-      return open
-    },
   }
 }

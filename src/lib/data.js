@@ -1,6 +1,6 @@
 import { group, groups, items } from '../data/groups.js'
 
-export { group, groups, items }
+export { groups }
 
 /** Round-robin items across members so the "All" feed feels mixed. */
 function interleave(list) {
@@ -25,7 +25,7 @@ function interleave(list) {
   return out
 }
 
-export const allItems = interleave(items)
+const allItems = interleave(items)
 
 // Member avatars, keyed by member id (parallel to `groups` order).
 const profileById = new Map(groups.map((g, i) => [g.id, group.profiles?.[i] ?? null]))
@@ -45,7 +45,6 @@ export function groupById(id) {
 }
 
 export const stats = {
-  groups: groups.length,
   members: groups.length,
   photos: items.length,
 }

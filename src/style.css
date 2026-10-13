@@ -83,6 +83,7 @@ button {
   background: none;
   border: 0;
   cursor: pointer;
+  width: fit-content;
 }
 
 ::selection {
@@ -454,12 +455,6 @@ button {
     transform 0.5s var(--ease);
   transform: translateY(44px);
   opacity: 0;
-}
-
-.menu.is-open .menu__item,
-.menu__item.is-in {
-  transform: translateY(0);
-  opacity: 1;
 }
 
 .menu__item .menu__idx {

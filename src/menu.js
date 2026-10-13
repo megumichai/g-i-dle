@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { groups, profileFor } from './lib/data.js'
 
 export function createMenu({ root, onSelect, getActive, onOpen }) {
-  const $root = $(root)
   const els = {
     primary: root.querySelector('[data-menu-primary]'),
     preview: root.querySelector('[data-menu-preview]'),
@@ -95,7 +94,6 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
     open = true
     syncActive()
     root.hidden = false
-    $root.addClass('is-open')
     gsap.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' })
     gsap.to(items, {
       y: 0,
@@ -119,7 +117,6 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
       delay: 0.1,
       onComplete: () => {
         root.hidden = true
-        $root.removeClass('is-open')
       },
     })
     els.openBtn.setAttribute('aria-expanded', 'false')
@@ -131,5 +128,5 @@ export function createMenu({ root, onSelect, getActive, onOpen }) {
     if (e.key === 'Escape') close()
   })
 
-  return { open: openMenu, close, isOpen: () => open, syncActive }
+  return { syncActive }
 }
